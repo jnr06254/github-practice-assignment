@@ -1,0 +1,6 @@
+Table,FieldName,Description,DataType,Units
+Small_Mammal_Jonathan_Ray_2013-2014,Date_Collected,"The year, month, and day that sample was collected.",Date,NA
+Small_Mammal_Jonathan_Ray_2013-2014,Plot,Numerical identifier for a plot that the sample was collected in.,Real,NA
+Small_Mammal_Jonathan_Ray_2013-2014,Species,Two letter identifier that describe the genus in the first letter and species as the second.,String,NA
+Small_Mammal_Jonathan_Ray_2013-2014,Sex,"Binomial variable describing the sex of the sample, female (F) or male (M).",String,NA
+Small_Mammal_Jonathan_Ray_2013-2014,Weight_g,Weight of sample mammal in grams.,Real,g
