@@ -1,0 +1,246 @@
+---
+title: "R-Codealong"
+output: html_document
+date: "2023-02-17"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+```
+
+## Introduction to R and Tidyverse
+
+The core tidyverse includes the packages that you're likely to use in everyday data analyses. Let's explore some of the functions using a dataset of penguins in the Palmer Archipelago in Antarctica!
+
+You can execute lines of code by placing your cursor anywhere in that line and pressing *Cmd+Enter* or *Ctrl+Enter*.
+
+You can also execute entire chunks by clicking the *Run* button (green arrow) within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter* or *Ctrl+Shift+Enter* on Windows. 
+
+A few other notes about R markdown:
+* Notice that R studio helps annotate your code's syntax with different colored text - comments, functions, numerical values, etc. will be highlighted.
+* It's also a good idea to add your own annotations or comments to your code to remind yourself and others what each line of code accomplishes - any code with a `#` preceding it will not be "seen" or run within a chunk.
+* It's common practice to provide certain information at the top of any R script or Rmd file: title/purpose, author name, and date
+
+With that, let's dive into the exercise! First, we will install the tidyverse package:
+
+```{r install packages}
+
+# Install the dplyr
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("") # install the palmerpenguins package to get our data!
+
+```
+
+Now that you've installed the tidyverse, it's time to load your package and data. Check out some of the observations.
+
+In this code along session, Palmer Penguins dataset where each observation is a penguin captured in a given year and each variable is a feature such as "species", "sex" and "body_mass_g". We will be exploring this data using tidyverse with a focus on [dplyr](http://dplyr.tidyverse.org/) for data wrangling
+
+Load your data:
+
+```{r load data}
+
+# Import the dplyr, tidyr, and palmerpenguins
+library(dplyr)
+library(tidyr)
+
+library(palmerpenguins)
+
+
+# Check out the first several observations of your dataframe
+
+```
+
+What are all of these variables? See https://allisonhorst.github.io/palmerpenguins/ for more details.
+
+To get an overview of your data, use the function "summary":
+
+```{r summarize data}
+
+# Summarize penguin data using base R syntax
+summary()
+```
+
+Now do the same using a pipe, one of the handiest tools in the tidyverse:
+
+Code using tidyverse syntax starts with `data` and is followed by one or more `verbs` to be done to the data. The data and verbs are linked together using `%>%` which is called a pipe. You can type out the pipe operator or use the shortcut *Cmd+Shift+M*.  
+
+```{r summarize data with pipe}
+
+# Summarize penguins using a pipe
+
+``` 
+
+You may have noticed stylistic consistency in the code that we've written above. That's because we're adhering to a style guide. In data science *and* programming/coding in general, it's important to get accustomed to using a style guide asap. As Hadley Wickham puts it in the [tidyverse style guide](http://style.tidyverse.org/index.html),
+
+> Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread.
+
+Now let's add `drop_na()` before the `summary()` function. What do you think will happen? 
+
+```{r remove NAs}
+
+# Summarize penguins after dropping NAs
+
+
+
+```
+
+Note, that there is a pipe operator between each function. 
+
+**Recap:**
+
+* You've imported your data & checked it out
+* You've learnt about the pipe operator `%>%`
+
+**Up next:**
+
+* Data wrangling with `dplyr` to **filter** your data, **arrange** it and create new features by **mutating** old ones.
+
+## Wrangle your data
+
+Now it's time to explore your data and get some initial insight into the dataset. You'll be using `dplyr` **verbs** such as `filter`, `arrange` and `mutate`, which do exactly what they say. 
+
+Let's say that we wanted to choose a particular set of observations, say, those for which the "Sex" was 'male'. `dplyr` allows us to do intuitively and in a language that mirrors how we think and talk about data.
+
+The `filter` verb chooses only the observations that match the condition. See it in action:
+
+```{r filter males}
+
+# Filter to get all "male" rows
+
+
+
+```
+
+**What can you see here?** Any ideas about whether male penguins differ from female penguins?
+
+**Note**: 
+
+* you can read `dplyr` code like a sentence: take your data and then (`%>%`) filter it according the condition that the sex is male.
+* the above does **not** alter the original dataframe.
+* `filter(Sex = "male")` is a common error (I've made it); there's a cool [tidyverse error guide](http://style.tidyverse.org/error-messages.html). We will go into errors in more detail in a bit. 
+
+```{r filter females}
+
+# Filter to get all "female" rows
+
+
+```
+
+**What can you see here?** Any ideas about the size measurements of female penguins?
+
+What if we want to focus on just a few data columns? 
+
+We can use the `select` function to choose specific columns in our dataset.
+
+```{r}
+# Filter to get all "female" rows
+# Select the sex and body_mass_g columns 
+# Summarize the data
+
+```
+
+It might be difficult to compare all of this information. What if we want to see the mean body mass of male and female penguins right next to each other? We can use the `group_by` and `summarize` functions to do just that.
+
+```{r}
+# Group data by sex
+# Summarize mean body mass
+
+
+```
+
+But we noticed that sex and species both seemed important in predicting penguin body mass. Let's try grouping by both categories instead.
+
+```{r}
+# Group data by sex and species
+# Summarize mean body mass
+
+
+```
+
+
+We can summarize data in other ways too! What if you want to know how many species are found on each island?
+
+```{r}
+# Group data by island
+# Summarize by counting the number of species
+
+```
+
+Lets say you wanted to `arrange` your observations by increasing body mass to see if you can notice any trends. How can we use the **verb** `arrange` to achieve this? 
+
+```{r arrange increasing}
+
+# Arrange by increasing body mass
+
+```
+
+**What can you see here?** 
+
+You can also `arrange` by decreasing body mass:
+
+```{r arrange decreasing}
+
+# Arrange by decreasing body mass
+
+```
+
+**What can you see here?** 
+
+Sometimes you may wish to create new variables. We know that the variable bill_length_mm is the length of penguin bill and the variable bill_depth_mm is the depth of the bill. We are interested in the rough volume of penguin bills, so we will create a variable called bill_volume_mm2 that is the product of bill length and bill depth. To do so, you `mutate` the original variables into the new one.
+
+```{r add columns}
+
+# Create new column bill volume (product of depth and length)
+
+
+```
+
+**Note:**
+
+* `mutate()` can be used to create new columns but also modify existing columns 
+
+* The `dplyr` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/) has useful visualizations for the different ways to create a new variable.
+
+**Try on your own**
+
+Is beak volume a trait that is primarily determined by species?
+
+To test this hypothesis, create a new variable "bill_volume_mm2" as the product of "bill_length_mm" and "bill_depth_mm" as above, then group the data by species and summarize the mean bill volume across species.
+
+```{r add then arrange}
+
+# Create new column bill volume (product of depth and length)
+# Then group by species and summarize the mean bill volume
+
+  
+```
+
+So far, our new variables have just been printed to the console, but not saved. If we want to explore our new variable further we will save it in a new dataframe called `penguins1`. The way we create and save this new object is similar to how the data was loaded using assingment arrow `<-`. The shortcut for the assignment arrow is *option+dash*.  
+
+```{r assigning objects}
+
+# Assign to a new data frame
+
+```
+
+
+Commonly used verbs (`dplyr` package): 
+
+* select()	select columns
+* filter()	filter rows
+* arrange()	re-order or arrange rows
+* mutate()	create new columns
+* summarise()	summarise values
+* group_by()	allows for group operations in the “split-apply-combine” concept
+
+Reference the `dplyr` [cheatsheet](https://www.rstudio.com/resources/cheatsheets/), or [package vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html) for more details. 
+
+
+**Recap:**
+
+* You've imported your data & checked it out
+* You've learnt about the pipe operator `%>%`
+* You can now use `dplyr` to wrangle your data: `filter` it, `select` columns, `arrange` it, create new features by `mutating` old ones, and `group_by` your data by certain variables and `summarize` other variables.
+
